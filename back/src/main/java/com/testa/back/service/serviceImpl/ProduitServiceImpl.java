@@ -3,6 +3,8 @@ package com.testa.back.service.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.testa.back.model.Categorie;
 import com.testa.back.model.Produit;
 import com.testa.back.model.modelDto.ProduitDto;
@@ -10,6 +12,7 @@ import com.testa.back.repository.CategorieRepository;
 import com.testa.back.repository.ProduitRepository;
 import com.testa.back.service.ProduitService;
 
+@Service
 public class ProduitServiceImpl implements ProduitService{
     
     private final ProduitRepository produitRepository;
@@ -41,7 +44,6 @@ public class ProduitServiceImpl implements ProduitService{
     public List<Produit> getAllProduit() {
         return produitRepository.findAll();
     }
-
 
     @Override
     public List<Produit> getAllProduitByIdCategorie(long idCategorie) {
@@ -85,6 +87,4 @@ public class ProduitServiceImpl implements ProduitService{
         return produitRepository.save(produit);
     }
 
-    
-    
 }

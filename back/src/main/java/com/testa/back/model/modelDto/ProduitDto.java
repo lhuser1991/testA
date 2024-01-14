@@ -11,11 +11,13 @@ import lombok.Setter;
 @Setter
 public class ProduitDto {
     
+    private long id;
     private String nom;
     private int stock;
     private Categorie categorie;
 
     public ProduitDto() {
+        this.id = 0;
         this.nom = "";
         this.stock = 0;
         this.categorie = null;

@@ -16,7 +16,7 @@ import com.testa.back.model.modelDto.ProduitDto;
 import com.testa.back.service.ProduitService;
 
 @RestController
-@RequestMapping("produit/")
+@RequestMapping("testa/produit/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProduitController {
     
