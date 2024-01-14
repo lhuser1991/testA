@@ -3,6 +3,7 @@ package com.testa.back.model;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.testa.back.model.modelDto.ProduitDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ public class Produit {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "nom")
     private String nom;
@@ -37,8 +38,8 @@ public class Produit {
     @Column(name = "stock")
     private int stock;
 
-    @Column(name = "est_actif")
-    private boolean estActif;
+    @Column(name = "actif")
+    private boolean actif;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = false)
@@ -47,5 +48,11 @@ public class Produit {
     @JsonIgnore
     @OneToMany(mappedBy = "produit")
     private Set<ProduitFournisseur> listProduitFournisseur;
+
+    public Produit(ProduitDto produitDto) {
+        this.nom = produitDto.getNom();
+        this.stock = produitDto.getStock();
+        this.categorie = produitDto.getCategorie();
+    }
 
 }

@@ -9,6 +9,7 @@ import com.testa.back.model.Produit;
 public interface ProduitRepository extends JpaRepository<Produit, Long> {
     
     Produit findByNom(String nom);
-    List<Produit> findAllByIdCategorie(Long idCategorie);
-    
+    List<Produit> findAllByCategorieId(long idCategorie);
+    List<Produit> findAllByCategorieNom(String nomCategorie);
+    List<Produit> findAllByActif(boolean actif);
 }

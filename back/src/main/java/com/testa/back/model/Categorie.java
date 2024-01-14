@@ -26,13 +26,13 @@ public class Categorie {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "nom")
     private String nom;
 
-    @Column(name = "est_actif")
-    private boolean estActif;
+    @Column(name = "actif")
+    private boolean actif;
 
     @JsonIgnore
     @OneToMany(mappedBy = "categorie")

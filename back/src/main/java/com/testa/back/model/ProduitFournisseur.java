@@ -24,7 +24,7 @@ public class ProduitFournisseur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     
     @Column(name = "est_fourni")
     private boolean estFourni;

@@ -10,13 +10,13 @@ import com.testa.back.model.ProduitFournisseur;
 
 public interface ProduitFournisseurRepository extends JpaRepository<ProduitFournisseur, Long> {
     
-    List<Produit> findAllProduitByFournisseurId(Long idFournisseur);
-    List<Produit> findAllProduitByFournisseurIdAndEstFourni(Long idFournisseur, boolean estFourni);
+    List<Produit> findAllProduitByFournisseurId(long idFournisseur);
+    List<Produit> findAllProduitByFournisseurIdAndEstFourni(long idFournisseur, boolean estFourni);
     List<Produit> findAllProduitByFournisseurNom(String nomFournisseur);
     List<Produit> findAllProduitByFournisseurNomAndEstFourni(String nomFournisseur, boolean estFourni);
 
-    List<Fournisseur> findAllFournisseurByProduitId(Long idProduit);
-    List<Fournisseur> findAllFournisseurByProduitIdAndEstFourni(Long idProduit, boolean estFourni);
+    List<Fournisseur> findAllFournisseurByProduitId(long idProduit);
+    List<Fournisseur> findAllFournisseurByProduitIdAndEstFourni(long idProduit, boolean estFourni);
     List<Fournisseur> findAllFournisseurByProduitNom(String nomProduit);
     List<Fournisseur> findAllFournisseurByProduitNomAndEstFourni(String nomProduit, boolean estFourni);
     
