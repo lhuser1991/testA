@@ -38,6 +38,11 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public List<Categorie> getAllCategorieActif() {
+        return categorieRepository.findAllByActif(true);
+    }
+
+    @Override
     public Categorie createCategorie(Categorie categorie) {
         return categorieRepository.save(categorie);
     }

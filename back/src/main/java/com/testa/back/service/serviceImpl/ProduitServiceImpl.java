@@ -32,7 +32,7 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public Produit getProduitBynom(String nomProduit) {
+    public Produit getProduitByNom(String nomProduit) {
         Produit produit = produitRepository.findByNom(nomProduit);
         if(produit == null) {
             return null;
@@ -71,8 +71,13 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public List<Produit> getAllProduitInactif() {
-        return produitRepository.findAllByActif(false);
+    public List<Produit> getAllProduitActifByIdCategorie(long idCategorie) {
+        return produitRepository.findAllByActifAndCategorieId(true, idCategorie);
+    }
+
+    @Override
+    public List<Produit> getAllProduitActifByNomCategorie(String nomCategorie) {
+        return produitRepository.getAllProduitActifByNomCategorie(true, nomCategorie);
     }
 
     @Override

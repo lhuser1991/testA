@@ -28,14 +28,14 @@ public class ProduitController {
 
     // ---------- GETMAPPING ---------- //
 
-    @GetMapping("{idProduit}")
+    @GetMapping("id/{idProduit}")
     public ResponseEntity<Produit> getProduitById(@PathVariable long idProduit) {
         return ResponseEntity.ok(produitService.getProduitById(idProduit));
     }
 
-    @GetMapping("{nomProduit}")
-    public ResponseEntity<Produit> getProduitBynom(@PathVariable String nomProduit) {
-        return ResponseEntity.ok(produitService.getProduitBynom(nomProduit));
+    @GetMapping("nom/{nomProduit}")
+    public ResponseEntity<Produit> getProduitByNom(@PathVariable String nomProduit) {
+        return ResponseEntity.ok(produitService.getProduitByNom(nomProduit));
     }
 
     @GetMapping("list")
@@ -43,24 +43,29 @@ public class ProduitController {
         return ResponseEntity.ok(produitService.getAllProduit());
     }
 
-    @GetMapping("list/{idCategorie}")
+    @GetMapping("list/orderBy/idCategorie/{idCategorie}")
     public ResponseEntity<List<Produit>> getAllProduitByIdCategorie(@PathVariable long idCategorie) {
         return ResponseEntity.ok(produitService.getAllProduitByIdCategorie(idCategorie));
     }
 
-    @GetMapping("list/{nomCategorie}")
+    @GetMapping("list/orderBy/nomCategorie/{nomCategorie}")
     public ResponseEntity<List<Produit>> getAllProduitByNomCategorie(@PathVariable String nomCategorie) {
         return ResponseEntity.ok(produitService.getAllProduitByNomCategorie(nomCategorie));
     }
 
-    @GetMapping("list/actif")
+    @GetMapping("list/orderBy/actif")
     public ResponseEntity<List<Produit>> getAllProduitActif() {
         return ResponseEntity.ok(produitService.getAllProduitActif());
     }
 
-    @GetMapping("list/inactif")
-    public ResponseEntity<List<Produit>> getAllProduitInactif() {
-        return ResponseEntity.ok(produitService.getAllProduitInactif());
+    @GetMapping("list/orderBy/actifAndIdCategorie/{idCategorie}")
+    public ResponseEntity<List<Produit>> getAllProduitActifByIdCategorie(@PathVariable long idCategorie) {
+        return ResponseEntity.ok(produitService.getAllProduitActifByIdCategorie(idCategorie));
+    }
+
+    @GetMapping("list/orderBy/actifAndNomCategorie/{nomCategorie}")
+    public ResponseEntity<List<Produit>> getAllProduitActifByNomCategorie(@PathVariable String nomCategorie) {
+        return ResponseEntity.ok(produitService.getAllProduitActifByNomCategorie(nomCategorie));
     }
 
     @GetMapping("initProduit")

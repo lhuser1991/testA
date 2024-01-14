@@ -9,5 +9,6 @@ public interface CategorieService {
     Categorie getCategorieById(long idCategorie);
     Categorie getCategorieBynom(String nomCategorie);
     List<Categorie> getAllCategorie();
+    List<Categorie> getAllCategorieActif();
     Categorie createCategorie(Categorie categorie);
 }

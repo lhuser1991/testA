@@ -12,4 +12,6 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
     List<Produit> findAllByCategorieId(long idCategorie);
     List<Produit> findAllByCategorieNom(String nomCategorie);
     List<Produit> findAllByActif(boolean actif);
+    List<Produit> findAllByActifAndCategorieId(boolean actif, long idCategorie);
+    List<Produit> getAllProduitActifByNomCategorie(boolean actif, String nomCategorie);
 }

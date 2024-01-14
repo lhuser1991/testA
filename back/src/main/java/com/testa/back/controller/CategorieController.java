@@ -27,12 +27,12 @@ public class CategorieController {
         this.categorieService = categorieService;
     }
 
-    @GetMapping("{idCategorie}")
+    @GetMapping("id/{idCategorie}")
     public ResponseEntity<Categorie> getCategorieById(@PathVariable long idCategorie) {
         return ResponseEntity.ok(categorieService.getCategorieById(idCategorie));
     }
 
-    @GetMapping("{nomCategorie}")
+    @GetMapping("nom/{nomCategorie}")
     public ResponseEntity<Categorie> getCategorieBynom(@PathVariable String nomCategorie) {
         return ResponseEntity.ok(categorieService.getCategorieBynom(nomCategorie));
     }
@@ -40,6 +40,11 @@ public class CategorieController {
     @GetMapping("list")
     public ResponseEntity<List<Categorie>> getAllCategorie() {
         return ResponseEntity.ok(categorieService.getAllCategorie());
+    }
+
+    @GetMapping("list/actif")
+    public ResponseEntity<List<Categorie>> getAllCategorieActif() {
+        return ResponseEntity.ok(categorieService.getAllCategorieActif());
     }
 
     // ---------- POSTMAPPING ---------- //
