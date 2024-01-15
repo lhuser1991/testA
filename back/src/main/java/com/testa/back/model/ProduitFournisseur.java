@@ -26,8 +26,8 @@ public class ProduitFournisseur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(name = "est_fourni")
-    private boolean estFourni;
+    @Column(name = "fourni")
+    private boolean fourni;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = false)
@@ -36,4 +36,10 @@ public class ProduitFournisseur {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fournisseur", referencedColumnName = "id", updatable = false)
     private Fournisseur fournisseur;
+
+    public ProduitFournisseur(boolean fourni, Produit produit, Fournisseur fournisseur) {
+        this.fourni = fourni;
+        this.produit = produit;
+        this.fournisseur = fournisseur;
+    }
 }

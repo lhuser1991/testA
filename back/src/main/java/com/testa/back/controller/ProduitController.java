@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.testa.back.model.Produit;
+import com.testa.back.model.generic.GenericResponse;
 import com.testa.back.model.modelDto.ProduitDto;
 import com.testa.back.service.ProduitService;
 
@@ -76,7 +77,7 @@ public class ProduitController {
     // ---------- POSTMAPPING ---------- //
 
     @PostMapping("create")
-    public ResponseEntity<Produit> createProduit(@RequestBody ProduitDto produitDto) {
+    public ResponseEntity<GenericResponse<Produit>> createProduit(@RequestBody ProduitDto produitDto) {
         return ResponseEntity.ok(produitService.createProduit(produitDto));
     }
 }

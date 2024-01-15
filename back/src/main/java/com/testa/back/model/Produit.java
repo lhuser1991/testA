@@ -52,7 +52,6 @@ public class Produit {
     public Produit(ProduitDto produitDto) {
         this.nom = produitDto.getNom();
         this.stock = produitDto.getStock();
-        this.categorie = produitDto.getCategorie();
     }
 
 }

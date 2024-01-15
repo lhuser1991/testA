@@ -1,6 +1,7 @@
 package com.testa.back.model.modelDto;
 
-import com.testa.back.model.Categorie;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +15,14 @@ public class ProduitDto {
     private long id;
     private String nom;
     private int stock;
-    private Categorie categorie;
+    private long idCategorie;
+    private List<Long> listIdFournisseur;
 
     public ProduitDto() {
         this.id = 0;
         this.nom = "";
         this.stock = 0;
-        this.categorie = null;
+        this.idCategorie = 0;
+        this.listIdFournisseur = new ArrayList<Long>();
     }
 }

@@ -3,6 +3,7 @@ package com.testa.back.service;
 import java.util.List;
 
 import com.testa.back.model.Produit;
+import com.testa.back.model.generic.GenericResponse;
 import com.testa.back.model.modelDto.ProduitDto;
 
 public interface ProduitService {
@@ -19,5 +20,5 @@ public interface ProduitService {
     List<Produit> getAllProduitActifByNomCategorie(String nomCategorie);
     
     ProduitDto initProduit();
-    Produit createProduit(ProduitDto produitDto);
+    GenericResponse<Produit> createProduit(ProduitDto produitDto);
 }
