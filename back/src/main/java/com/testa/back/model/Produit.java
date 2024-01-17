@@ -3,7 +3,6 @@ package com.testa.back.model;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.testa.back.model.modelDto.ProduitDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,16 +41,23 @@ public class Produit {
     private boolean actif;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = true)
     private Categorie categorie;
     
     @JsonIgnore
     @OneToMany(mappedBy = "produit")
     private Set<ProduitFournisseur> listProduitFournisseur;
 
-    public Produit(ProduitDto produitDto) {
-        this.nom = produitDto.getNom();
-        this.stock = produitDto.getStock();
+    public Produit(long id, String nom, int stock, boolean actif) {
+        this.id = id;
+        this.nom = nom;
+        this.stock = stock;
+        this.actif = actif;
+    }
+
+    public Produit(String nom, int stock) {
+        this.nom = nom;
+        this.stock = stock;
     }
 
 }

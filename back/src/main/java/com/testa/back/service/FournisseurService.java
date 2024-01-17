@@ -10,5 +10,6 @@ public interface FournisseurService {
     Fournisseur getFournisseurByNom(String nomFourrnisseur);
     List<Fournisseur> getAllFournisseur();
     List<Fournisseur> getAllFournisseurActif();
+    List<Fournisseur> getAllFournisseurFromListFournisseurId(List<Long> listIdFournisseur);
     Fournisseur createFournisseur(Fournisseur fournisseur);
 }

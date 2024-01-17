@@ -25,10 +25,10 @@ public class CategorieServiceImpl implements CategorieService {
     @Override
     public Categorie getCategorieBynom(String nomCategorie) {
         Categorie categorie = categorieRepository.findByNom(nomCategorie);
-        if(categorie == null) {
-            return null;
-        } else {
+        if(categorie != null) {
             return categorie;
+        } else {
+            return new Categorie();
         }
     }
 

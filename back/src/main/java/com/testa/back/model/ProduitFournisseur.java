@@ -1,5 +1,7 @@
 package com.testa.back.model;
 
+import com.testa.back.model.modelDto.ProduitFournisseurDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,5 +43,10 @@ public class ProduitFournisseur {
         this.fourni = fourni;
         this.produit = produit;
         this.fournisseur = fournisseur;
+    }
+
+    public ProduitFournisseur(ProduitFournisseurDto produitFournisseurDto) {
+        this.id = produitFournisseurDto.getId();
+        this.fourni = produitFournisseurDto.isFourni();
     }
 }
