@@ -47,6 +47,16 @@ public class CategorieController {
         return ResponseEntity.ok(categorieService.getAllCategorieActif());
     }
 
+    @GetMapping("emptyCategorie")
+    public ResponseEntity<Categorie> getEmptyCategorie() {
+        return ResponseEntity.ok(categorieService.getEmptyCategorie());
+    }
+
+    @GetMapping("deleteCategorie/{idCategorie}")
+    public ResponseEntity<Categorie> deleteCategorie(@PathVariable long idCategorie) {
+        return ResponseEntity.ok(categorieService.deleteCategorie(idCategorie));
+    }
+
     // ---------- POSTMAPPING ---------- //
 
     @PostMapping("create")

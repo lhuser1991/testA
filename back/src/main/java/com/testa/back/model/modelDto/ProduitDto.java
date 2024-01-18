@@ -18,7 +18,7 @@ public class ProduitDto {
     private String nom;
     private int stock;
     private boolean actif;
-    private long idCategorie;
+    private List<Long> listIdCategorie;
     private List<Long> listIdFournisseur;
 
     public ProduitDto() {
@@ -26,7 +26,7 @@ public class ProduitDto {
         this.nom = "";
         this.stock = 0;
         this.actif = false;
-        this.idCategorie = 0;
+        this.listIdCategorie = new ArrayList<Long>();
         this.listIdFournisseur = new ArrayList<Long>();
     }
 
@@ -35,7 +35,7 @@ public class ProduitDto {
         this.nom = produit.getNom();
         this.stock = produit.getStock();
         this.actif = produit.isActif();
-        this.idCategorie = produit.getCategorie().getId();
+        this.listIdCategorie = new ArrayList<Long>();
         this.listIdFournisseur = new ArrayList<Long>();
     }
 }

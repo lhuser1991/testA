@@ -2,14 +2,16 @@ package com.testa.back.service;
 
 import java.util.List;
 
-import com.testa.back.model.Fournisseur;
+import com.testa.back.model.modelDto.FournisseurDto;
 
 public interface FournisseurService {
     
-    Fournisseur getFournisseurById(long idFournisseur);
-    Fournisseur getFournisseurByNom(String nomFourrnisseur);
-    List<Fournisseur> getAllFournisseur();
-    List<Fournisseur> getAllFournisseurActif();
-    List<Fournisseur> getAllFournisseurFromListFournisseurId(List<Long> listIdFournisseur);
-    Fournisseur createFournisseur(Fournisseur fournisseur);
+    FournisseurDto getFournisseurById(long idFournisseur);
+    FournisseurDto getFournisseurByNom(String nomFourrnisseur);
+    List<FournisseurDto> getAllFournisseur();
+    List<FournisseurDto> getAllFournisseurActif();
+    List<FournisseurDto> getAllFournisseurFromListFournisseurId(List<Long> listIdFournisseur);
+    FournisseurDto deleteFournisseur(long idFournisseur);
+    FournisseurDto getEmptyFournisseur();
+    FournisseurDto createFournisseur(FournisseurDto fournisseurDto);
 }

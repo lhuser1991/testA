@@ -1,5 +1,6 @@
 package com.testa.back.model;
 
+import java.security.Timestamp;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,6 +32,9 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "numero")
+    private String numero;
+
     @Column(name = "nom")
     private String nom;
 
@@ -40,13 +44,21 @@ public class Produit {
     @Column(name = "actif")
     private boolean actif;
 
+    @Column(name = "date_creation")
+    private Timestamp dateCreation;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = true)
-    private Categorie categorie;
+    @JoinColumn(name = "id_etat", referencedColumnName = "id", updatable = true)
+    private Etat etat;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "produit")
+    private Set<ProduitCategorie> listProduitCategorie;
     
     @JsonIgnore
     @OneToMany(mappedBy = "produit")
     private Set<ProduitFournisseur> listProduitFournisseur;
+    
 
     public Produit(long id, String nom, int stock, boolean actif) {
         this.id = id;

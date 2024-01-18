@@ -13,11 +13,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -37,5 +35,30 @@ public class Categorie {
     @JsonIgnore
     @OneToMany(mappedBy = "categorie")
     private Set<Produit> listProduit;
+
+    /**
+     * Pour l'initialisation
+     */
+    public Categorie() {
+        this.id = 0;
+        this.nom = "";
+        this.actif = false;
+    }
+
+    /**
+     * Pour la creation
+     * @param nom
+     * @param actif
+     */
+    public Categorie(String nom) {
+        this.nom = nom;
+        this.actif = true;
+    }
+
+    public Categorie(Categorie categorie) {
+        this.id = categorie.getId();
+        this.nom = categorie.getNom();
+        this.actif = categorie.isActif();
+    }
 
 }

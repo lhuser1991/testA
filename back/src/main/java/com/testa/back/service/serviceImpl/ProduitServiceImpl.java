@@ -225,6 +225,7 @@ public class ProduitServiceImpl implements ProduitService{
 
     public ProduitDto convertProduitIntoProduitDto(Produit produit) {
         ProduitDto produitDto = new ProduitDto(produit);
+        for()
         for(ProduitFournisseur pf: produitFournisseurRepository.findAllFournisseurByProduitIdAndFourni(produit.getId(), true)) {
             produitDto.getListIdFournisseur().add(pf.getFournisseur().getId());
         }

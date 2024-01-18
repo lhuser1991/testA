@@ -3,30 +3,24 @@ package com.testa.back.model;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.testa.back.model.modelDto.FournisseurDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "fournisseur")
-public class Fournisseur {
+@Table(name = "etat")
+public class Etat {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,26 +32,31 @@ public class Fournisseur {
     @Column(name = "actif")
     private boolean actif;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_etat", referencedColumnName = "id", updatable = true)
-    private Etat etat;
+    @JsonIgnore
+    @OneToMany(mappedBy = "etat")
+    private Set<Produit> listProduit;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "fournisseur")
-    private Set<ProduitFournisseur> listProduitFournisseur;
+    @OneToMany(mappedBy = "etat")
+    private Set<Fournisseur> listFournisseur;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "etat")
+    private Set<Stock> listStock;
+
+    public Etat() {
+        this.id = 0;
+        this.nom = "";
+        this.actif = false;
+    }
 
     /**
-     * Pour la création
+     * Pour la creation
      * @param nom
      */
-    public Fournisseur(String nom) {
+    public Etat(String nom) {
         this.nom = nom;
         this.actif = true;
     }
 
-    public Fournisseur(FournisseurDto fournisseurDto) {
-        this.id = fournisseurDto.getId();
-        this.nom = fournisseurDto.getNom();
-        this.actif = fournisseurDto.isActif();
-    }
 }
