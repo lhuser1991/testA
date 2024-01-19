@@ -3,33 +3,95 @@ package com.testa.back.service;
 import java.util.List;
 
 import com.testa.back.model.Stock;
+import com.testa.back.model.modelDto.ProduitDto;
+import com.testa.back.model.modelDto.StockDto;
 
 public interface StockService {
-    
-    /**
-     * Permet d'obtenir ls liste des objets Stock d'un objet Produit
-     * @param idProduit L'id de l'objet Produit que l'on veut obtenir
-     * @return Une liste d'objet Stock
-     */
-    List<Stock> getAllStockByProduitId(long idProduit);
 
     /**
-     * Permet d'obtenir la liste des Stock d'un Produit par son numero
-     * @param numeroProduit Le numero du Produit
-     * @return Une liste de Stock
+     * Permet d'obtenir un Stock par son id
+     * @param idStock L'id du Stock à obtenir
+     * @return Un objet Stock si l'id est trouvé, sinon un Stock vide
      */
-    List<Stock> getAllStockByProduitNumero(String numeroProduit);
-
-    /**
-     * Permet d'obtenir le stock actuel de la liste des stocks d'un ibjet Produit
-     * @param idProduit L'id de l'objet Produit que l'on veut obtenir
-     * @return Un objet Stock
-     */
-    Stock getStockActuelByProduitId(long idProduit);
+    Stock getStockById(long idStock);
 
     /**
      * Permet d'obtenir une liste de Stock
      * @return Une liste de Stock
      */
     List<Stock> getAllStock();
+
+    /**
+     * Permet d'obtenir ls liste des Stock d'un Produit
+     * @param idProduit L'id du Produit que l'on veut obtenir
+     * @return Une liste de Stock
+     */
+    List<Stock> getAllStockByProduitId(long idProduit);
+
+    /**
+     * Permet d'obtenir le Stock actuel d'un Produit
+     * @param idProduit L'id du Produit que l'on veut obtenir
+     * @return Un objet Stock
+     */
+    Stock getStockActuelByProduitId(long idProduit);
+
+    /**
+     * Permet d'obtenir une liste de Stock actif
+     * @return Une liste de Stock
+     */
+    List<Stock> getAllStockActif();
+
+    /**
+     * Permet d'ajouter un Stock à un Produit
+     * @param produitDto Le Produit que l'on souhaite ajouté le Stock
+     * @return Le Stock ajouté au Produit
+     */
+    Stock addStockToProduit(StockDto stockDto);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /**
+     * Permet d'obtenir un StockDto par l'id d'un Stock
+     * @param idStock L'id du Stock à obtenir
+     * @return Un objet StockDto si l'id est trouvé, sinon un StockDto vide
+     */
+    StockDto getStockDtoById(long idStock);
+    
+    /**
+     * Permet d'obtenir une liste de StockDto
+     * @return Une liste de StockDto
+     */
+    List<StockDto> getAllStockDto();
+
+    /**
+     * Permet d'obtenir ls liste des StockDto d'un Produit
+     * @param idProduit L'id du Produit que l'on veut obtenir
+     * @return Une liste de StockDto
+     */
+    List<StockDto> getAllStockDtoByProduitId(long idProduit);
+
+    /**
+     * Permet d'obtenir le StockDto actuel d'un Produit
+     * @param idProduit L'id du Produit que l'on veut obtenir
+     * @return Un objet StockDto
+     */
+    StockDto getStockDtoActuelByProduitId(long idProduit);
+    
+    /**
+     * Permet d'obtenir une liste de StockDto actif
+     * @return Une liste de StockDto
+     */
+    List<StockDto> getAllStockDtoActif();
+
+    /**
+     * Permet d'ajouter un Stock à un Produit
+     * @param produitDto Le Produit que l'on souhaite ajouté le Stock
+     * @return Le StockDto ajouté au Produit
+     */
+    StockDto addStockDtoToProduit(StockDto stockDto);
+
+
+
+
+
 }

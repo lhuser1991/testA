@@ -63,11 +63,7 @@ public class ProduitServiceImpl implements ProduitService{
         this.produitFournisseurService = produitFournisseurService;
     }
 
-    ///////////////////////////////////////////////////////
-    // ------------------------------------------------- //
-    // -------------------- PRODUIT -------------------- //
-    // ------------------------------------------------- //
-    ///////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Produit getProduiById(long idProduit) {
@@ -114,11 +110,7 @@ public class ProduitServiceImpl implements ProduitService{
         return produitRepository.findAllByNumero(numeroProduit);
     }
 
-    ///////////////////////////////////////////////////////////
-    // ----------------------------------------------------- //
-    // -------------------- PRODUIT_DTO -------------------- //
-    // ----------------------------------------------------- //
-    ///////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public ProduitDto getProduitDtoById(long idProduit) {
@@ -310,6 +302,8 @@ public class ProduitServiceImpl implements ProduitService{
         return listProduitDto;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public ProduitDto convertProduitIntoProduitDto(Produit produit) {
         // Convertit produit en produitDto
         ProduitDto produitDto = new ProduitDto(produit);

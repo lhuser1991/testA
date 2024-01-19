@@ -39,7 +39,7 @@ public class Stock {
         this.id = 0;
         this.stock = 0;
         this.actif = false;
-        this.produit = null;
+        this.produit = new Produit();
     }
 
     public Stock(Stock stock) {
