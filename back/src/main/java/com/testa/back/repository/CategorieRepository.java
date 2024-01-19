@@ -9,4 +9,5 @@ public interface CategorieRepository extends JpaRepository<Categorie, Long>{
     
     Categorie findByNom(String nom);
     List<Categorie> findAllByActif(boolean actif);
+    
 }

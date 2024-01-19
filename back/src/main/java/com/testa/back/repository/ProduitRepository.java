@@ -11,4 +11,6 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
     Produit findByNom(String nom);
     List<Produit> findAllByActif(boolean actif);
     List<Produit> findAllByNumero(String numeroProduit);
+
+    boolean existsByNumero(String numero);
 }

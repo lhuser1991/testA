@@ -13,6 +13,7 @@ import com.testa.back.model.ProduitFournisseur;
 import com.testa.back.model.Stock;
 import com.testa.back.model.generic.GenericResponse;
 import com.testa.back.model.modelDto.ProduitDto;
+import com.testa.back.repository.CategorieRepository;
 import com.testa.back.repository.FournisseurRepository;
 import com.testa.back.repository.ProduitCategorieRepository;
 import com.testa.back.repository.ProduitFournisseurRepository;
@@ -28,6 +29,7 @@ import com.testa.back.service.StockService;
 public class ProduitServiceImpl implements ProduitService{
     
     private final ProduitRepository produitRepository;
+    private final CategorieRepository categorieRepository;
     private final FournisseurRepository fournisseurRepository;
     private final ProduitFournisseurRepository produitFournisseurRepository;
     private final ProduitCategorieRepository produitCategorieRepository;
@@ -39,6 +41,7 @@ public class ProduitServiceImpl implements ProduitService{
 
     public ProduitServiceImpl(
         ProduitRepository produitRepository,
+        CategorieRepository categorieRepository,
         FournisseurRepository fournisseurRepository,
         ProduitFournisseurRepository produitFournisseurRepository,
         ProduitCategorieRepository produitCategorieRepository,
@@ -49,6 +52,7 @@ public class ProduitServiceImpl implements ProduitService{
         ProduitFournisseurService produitFournisseurService
         ) {
         this.produitRepository = produitRepository;
+        this.categorieRepository = categorieRepository;
         this.fournisseurRepository = fournisseurRepository;
         this.produitFournisseurRepository = produitFournisseurRepository;
         this.produitCategorieRepository = produitCategorieRepository;
@@ -174,50 +178,60 @@ public class ProduitServiceImpl implements ProduitService{
     @Override
     public GenericResponse<ProduitDto> createProduit(ProduitDto produitDto) {
 
-        // Creer et save un nouveau produit
-        Produit newProduit = new Produit(produitDto.getNumero(), produitDto.getNom());
-        produitRepository.save(newProduit);
+        if(!verificationNumeroProduit(produitDto)) {
+            return new GenericResponse<>(produitDto,"Erreur, le numero de produit "+produitDto.getNumero()+" existe deja.");
+        } else if(!verificationListeIdCategorie(produitDto)) {
+            return new GenericResponse<>(produitDto, "Erreur, les categories entrées n'existent pas.");
+        } else if(!verificationListeIdFournisseur(produitDto)) {
+            return new GenericResponse<>(produitDto, "Erreur, les fournisseurs entrés n'existent pas.");
+        } else {
+            
+            // Creer et save un nouveau produit
+            Produit newProduit = new Produit(produitDto.getNumero(), produitDto.getNom());
+            produitRepository.save(newProduit);
+    
+            // Creer et save un nouveau stock
+            Stock newStock = new Stock();
+            newStock.setStock(produitDto.getStock());
+            newStock.setProduit(newProduit);
+            newStock.setActif(true);
+            stockRepository.save(newStock);
+    
+            // Creer et save une nouvelle liste de produitcategorie
+            List<Categorie> listCategorie = new ArrayList<Categorie>();
+            for(long idCategorie: produitDto.getListIdCategorie()) {
+                listCategorie.add(categorieService.getCategorieById(idCategorie));
+            }
+            List<ProduitCategorie> newListProduitCategorie = new ArrayList<ProduitCategorie>();
+            for(Categorie c: listCategorie) {
+                newListProduitCategorie.add(new ProduitCategorie(newProduit, c));
+            }
+            produitCategorieRepository.saveAll(newListProduitCategorie);
+    
+            // Creer et save une nouvelle liste de produitfournisseur
+            List<Fournisseur> listFournisseur = new ArrayList<Fournisseur>();
+            for(long idFournisseur: produitDto.getListIdFournisseur()) {
+                listFournisseur.add(fournisseurRepository.findById(idFournisseur).orElse(new Fournisseur()));
+            }
+            List<ProduitFournisseur> newListProduitFournisseur = new ArrayList<ProduitFournisseur>();
+            for(Fournisseur f: listFournisseur) {
+                newListProduitFournisseur.add(new ProduitFournisseur(newProduit, f));
+            }
+            produitFournisseurRepository.saveAll(newListProduitFournisseur);
+    
+            // Creer un nouveau produitDto
+            ProduitDto newProduitDto = new ProduitDto(newProduit);
+            newProduitDto.setStock(newStock.getStock());
+            for(ProduitCategorie pc: newListProduitCategorie) {
+                newProduitDto.getListIdCategorie().add(pc.getCategorie().getId());
+            }
+            for(ProduitFournisseur pf: newListProduitFournisseur) {
+                newProduitDto.getListIdFournisseur().add(pf.getFournisseur().getId());
+            }
+            
+            return new GenericResponse<ProduitDto>(newProduitDto, "Nouveau produit ajouté.");
 
-        // Creer et save un nouveau stock
-        Stock newStock = new Stock();
-        newStock.setStock(produitDto.getStock());
-        newStock.setProduit(newProduit);
-        newStock.setActif(true);
-        stockRepository.save(newStock);
-
-        // Creer et save une nouvelle liste de produitcategorie
-        List<Categorie> listCategorie = new ArrayList<Categorie>();
-        for(long idCategorie: produitDto.getListIdCategorie()) {
-            listCategorie.add(categorieService.getCategorieById(idCategorie));
         }
-        List<ProduitCategorie> newListProduitCategorie = new ArrayList<ProduitCategorie>();
-        for(Categorie c: listCategorie) {
-            newListProduitCategorie.add(new ProduitCategorie(newProduit, c));
-        }
-        produitCategorieRepository.saveAll(newListProduitCategorie);
-
-        // Creer et save une nouvelle liste de produitfournisseur
-        List<Fournisseur> listFournisseur = new ArrayList<Fournisseur>();
-        for(long idFournisseur: produitDto.getListIdFournisseur()) {
-            listFournisseur.add(fournisseurRepository.findById(idFournisseur).orElse(new Fournisseur()));
-        }
-        List<ProduitFournisseur> newListProduitFournisseur = new ArrayList<ProduitFournisseur>();
-        for(Fournisseur f: listFournisseur) {
-            newListProduitFournisseur.add(new ProduitFournisseur(newProduit, f));
-        }
-        produitFournisseurRepository.saveAll(newListProduitFournisseur);
-
-        // Creer un nouveau produitDto
-        ProduitDto newProduitDto = new ProduitDto(newProduit);
-        newProduitDto.setStock(newStock.getStock());
-        for(ProduitCategorie pc: newListProduitCategorie) {
-            newProduitDto.getListIdCategorie().add(pc.getCategorie().getId());
-        }
-        for(ProduitFournisseur pf: newListProduitFournisseur) {
-            newProduitDto.getListIdFournisseur().add(pf.getFournisseur().getId());
-        }
-        
-        return new GenericResponse<ProduitDto>(newProduitDto, "Nouveau produit ajouté.");
     }
 
     @Override
@@ -315,5 +329,35 @@ public class ProduitServiceImpl implements ProduitService{
 
         return produitDto;
     }
+
+    public boolean verificationNumeroProduit(ProduitDto produitDto) {
+        boolean check = true;
+        if(produitRepository.existsByNumero(produitDto.getNumero())) {
+            check = false;
+        } 
+        return check;
+    }
+
+    public boolean verificationListeIdCategorie(ProduitDto produitDto) {
+        boolean check = true;
+        for(long idCategorie: produitDto.getListIdCategorie()) {
+            if(!categorieRepository.existsById(idCategorie)) {
+                check = false;
+            }
+        }
+        return check;
+    }
+
+    public boolean verificationListeIdFournisseur(ProduitDto produitDto) {
+        boolean check = true;
+        for(long idFournisseur: produitDto.getListIdFournisseur()) {
+            if(!fournisseurRepository.existsById(idFournisseur)) {
+                check = false;
+            }
+        }
+        return check;
+    }
+
+
 
 }
