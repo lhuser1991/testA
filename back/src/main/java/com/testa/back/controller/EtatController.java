@@ -47,6 +47,11 @@ public class EtatController {
         return ResponseEntity.ok(etatService.getAllEtatActif());
     }
 
+    @GetMapping("emptyEtat")
+    public ResponseEntity<Etat> getEmptyEtat() {
+        return ResponseEntity.ok(etatService.getEmptyEtat());
+    }
+
     @GetMapping("deleteEtat/{idEtat}")
     public ResponseEntity<Etat> deleteEtat(@PathVariable long idEtat) {
         return ResponseEntity.ok(etatService.deleteEtat(idEtat));

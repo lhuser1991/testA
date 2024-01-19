@@ -45,4 +45,10 @@ public interface EtatService {
      * @return L'objet Etat crée ou modifié
      */
     Etat createEtat(Etat etat);
+
+    /**
+     * Peremet d'obtenir un objet Etat vide
+     * @return Un objet Etat
+     */
+    Etat getEmptyEtat();
 }

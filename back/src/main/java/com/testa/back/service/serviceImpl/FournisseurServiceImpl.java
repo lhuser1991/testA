@@ -9,23 +9,69 @@ import com.testa.back.model.Etat;
 import com.testa.back.model.Fournisseur;
 import com.testa.back.model.modelDto.FournisseurDto;
 import com.testa.back.repository.FournisseurRepository;
+import com.testa.back.service.EtatService;
 import com.testa.back.service.FournisseurService;
 
 @Service
 public class FournisseurServiceImpl implements FournisseurService {
 
     private final FournisseurRepository fournisseurRepository;
-    private final EtatServiceImpl etatServiceImpl;
+    private final EtatService etatService;
 
-    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, EtatServiceImpl etatServiceImpl) {
+    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, EtatService etatService) {
         this.fournisseurRepository = fournisseurRepository;
-        this.etatServiceImpl = etatServiceImpl;
+        this.etatService = etatService;
+    }
+
+    // ----------------------------------------------------- //
+    // -------------------- FOURNISSEUR -------------------- //
+    // ----------------------------------------------------- //
+
+    @Override
+    public Fournisseur getFournisseurById(long idFournisseur) {
+        return fournisseurRepository.findById(idFournisseur).orElse(new Fournisseur());
     }
 
     @Override
-    public FournisseurDto getFournisseurById(long idFournisseur) {
-        Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);
+    public Fournisseur getFournisseurByNom(String nomFournisseur) {
+        Fournisseur fournisseur = fournisseurRepository.findByNom(nomFournisseur);
         if(fournisseur != null) {
+            return fournisseur;
+        } else {
+            return new Fournisseur();
+        }
+    }
+
+    @Override
+    public List<Fournisseur> getAllFournisseur() {
+        return fournisseurRepository.findAll();
+    }
+
+    @Override
+    public List<Fournisseur> getAllFournisseurActif() {
+        return fournisseurRepository.findAllByActif(true);
+    }
+
+    @Override
+    public List<Fournisseur> getAllFournisseurFromListFournisseurId(List<Long> listIdFournisseur) {
+        List<Fournisseur> listFournisseur = new ArrayList<Fournisseur>();
+        for (long idFournisseur : listIdFournisseur) {
+            Fournisseur fournisseur = getFournisseurById(idFournisseur);
+            if (fournisseur.getId() != 0) {
+                listFournisseur.add(fournisseur);
+            }
+        }
+        return listFournisseur;
+    }
+
+    // --------------------------------------------------------- //
+    // -------------------- FOURNISSEUR_DTO -------------------- //
+    // --------------------------------------------------------- //
+
+    @Override
+    public FournisseurDto getFournisseurDtoById(long idFournisseur) {
+        Fournisseur fournisseur = getFournisseurById(idFournisseur);
+        if(fournisseur.getId() != 0) {
             return new FournisseurDto(fournisseur);
         } else {
             return new FournisseurDto();
@@ -33,9 +79,9 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public FournisseurDto getFournisseurByNom(String nomFourrnisseur) {
-        Fournisseur fournisseur = fournisseurRepository.findByNom(nomFourrnisseur);
-        if(fournisseur != null) {
+    public FournisseurDto getFournisseurDtoByNom(String nomFournisseur) {
+        Fournisseur fournisseur = getFournisseurByNom(nomFournisseur);
+        if(fournisseur.getId() != 0) {
             return new FournisseurDto(fournisseur);
         } else {
             return new FournisseurDto();
@@ -43,8 +89,8 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public List<FournisseurDto> getAllFournisseur() {
-        List<Fournisseur> listFournisseur =  fournisseurRepository.findAll();
+    public List<FournisseurDto> getAllFournisseurDto() {
+        List<Fournisseur> listFournisseur =  getAllFournisseur();
         List<FournisseurDto> listFournisseurDto = new ArrayList<FournisseurDto>();
         for(Fournisseur f: listFournisseur) {
             listFournisseurDto.add(new FournisseurDto(f));
@@ -53,8 +99,8 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public List<FournisseurDto> getAllFournisseurActif() {
-        List<Fournisseur> listFournisseurActif = fournisseurRepository.findAllByActif(true);
+    public List<FournisseurDto> getAllFournisseurDtoActif() {
+        List<Fournisseur> listFournisseurActif = getAllFournisseurActif();
         List<FournisseurDto> listFournisseurDto = new ArrayList<FournisseurDto>();
         for(Fournisseur f: listFournisseurActif) {
             listFournisseurDto.add(new FournisseurDto(f));
@@ -63,13 +109,11 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public List<FournisseurDto> getAllFournisseurFromListFournisseurId(List<Long> listIdFournisseur) {
+    public List<FournisseurDto> getAllFournisseurDtoFromListFournisseurId(List<Long> listIdFournisseur) {
         List<FournisseurDto> listFournisseurDto = new ArrayList<FournisseurDto>();
-        for (long idFournisseur : listIdFournisseur) {
-            FournisseurDto fournisseurDto = getFournisseurById(idFournisseur);
-            if (fournisseurDto.getId() != 0) {
-                listFournisseurDto.add(fournisseurDto);
-            }
+        List<Fournisseur> listFournisseur = getAllFournisseurFromListFournisseurId(listIdFournisseur);
+        for(Fournisseur f: listFournisseur) {
+            listFournisseurDto.add(new FournisseurDto(f));
         }
         return listFournisseurDto;
     }
@@ -87,25 +131,34 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public FournisseurDto getEmptyFournisseur() {
+    public FournisseurDto getEmptyFournisseurDto() {
         return new FournisseurDto();
     }
 
     @Override
     public FournisseurDto createFournisseur(FournisseurDto fournisseurDto) {
-
         Fournisseur fournisseur = new Fournisseur();
+
         if(fournisseurDto.getId() == 0) {
-            // creation
-            fournisseur = new Fournisseur(fournisseurDto.getNom());
-        } else {
-            // modification
-            fournisseur = new Fournisseur(fournisseurDto);
-        }
-        Etat etat = etatServiceImpl.getEtatById(fournisseurDto.getIdEtat());
-        if(etat.getId() != 0) {
-            fournisseur.setEtat(etat);
+            fournisseur = new Fournisseur(fournisseurDto.getNom(), fournisseurDto.getIdentifiant());
             fournisseurRepository.save(fournisseur);
+        }
+
+        return new FournisseurDto(fournisseur);
+    }
+
+    @Override
+    public FournisseurDto updateFournisseur(FournisseurDto fournisseurDto) {
+        Fournisseur fournisseur = new Fournisseur();
+
+        if(fournisseurDto.getId() != 0) {
+            List<Fournisseur> listFournisseur = fournisseurRepository.findAllByIdentifiant(fournisseurDto.getIdentifiant());
+            for(Fournisseur f: listFournisseur) {
+                f.setActif(false);
+            }
+            fournisseur = new Fournisseur(fournisseurDto);
+            listFournisseur.add(fournisseur);
+            fournisseurRepository.saveAll(listFournisseur);
         }
 
         return new FournisseurDto(fournisseur);

@@ -32,18 +32,6 @@ public class Etat {
     @Column(name = "actif")
     private boolean actif;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "etat")
-    private Set<Produit> listProduit;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "etat")
-    private Set<Fournisseur> listFournisseur;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "etat")
-    private Set<Stock> listStock;
-
     public Etat() {
         this.id = 0;
         this.nom = "";

@@ -59,7 +59,7 @@ public class CategorieController {
 
     // ---------- POSTMAPPING ---------- //
 
-    @PostMapping("create")
+    @PostMapping("createCategorie")
     public ResponseEntity<Categorie> createCategorie(@RequestBody Categorie categorie) {
         return ResponseEntity.ok(categorieService.createCategorie(categorie));
     }

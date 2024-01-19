@@ -34,7 +34,7 @@ public class Categorie {
 
     @JsonIgnore
     @OneToMany(mappedBy = "categorie")
-    private Set<Produit> listProduit;
+    private Set<ProduitCategorie> listProduitCategorie;
 
     /**
      * Pour l'initialisation

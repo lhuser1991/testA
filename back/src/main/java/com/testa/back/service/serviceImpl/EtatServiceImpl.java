@@ -69,5 +69,10 @@ public class EtatServiceImpl implements EtatService {
             return etatRepository.save(etat);
         }
     }
+
+    @Override
+    public Etat getEmptyEtat() {
+        return new Etat();
+    }
     
 }

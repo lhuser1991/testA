@@ -26,10 +26,16 @@ public class ProduitCategorie {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = true)
     private Produit produit;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = true)
     private Categorie categorie;
+
+    public ProduitCategorie(Produit produit, Categorie categorie) {
+        this.produit = produit;
+        this. categorie = categorie;
+    }
+
 }

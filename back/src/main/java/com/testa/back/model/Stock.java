@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -29,12 +28,23 @@ public class Stock {
     @Column(name = "stock")
     private int stock;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_etat", referencedColumnName = "id", updatable = true)
-    private Etat etat;
+    @Column(name = "actif")
+    private boolean actif;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = true)
     private Produit produit;
+
+    public Stock() {
+        this.id = 0;
+        this.stock = 0;
+        this.actif = false;
+        this.produit = null;
+    }
+
+    public Stock(Stock stock) {
+        this.stock = stock.getStock();
+        this.actif = stock.isActif();
+    }
 
 }

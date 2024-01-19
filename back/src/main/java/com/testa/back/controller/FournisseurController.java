@@ -29,27 +29,27 @@ public class FournisseurController {
 
     @GetMapping("id/{idFournisseur}")
     public ResponseEntity<FournisseurDto> getFournisseurById(@PathVariable long idFournisseur) {
-        return ResponseEntity.ok(fournisseurService.getFournisseurById(idFournisseur));
+        return ResponseEntity.ok(fournisseurService.getFournisseurDtoById(idFournisseur));
     }
 
     @GetMapping("nom/{nomFournisseur}")
     public ResponseEntity<FournisseurDto> getFournisseurBynom(@PathVariable String nomFournisseur) {
-        return ResponseEntity.ok(fournisseurService.getFournisseurByNom(nomFournisseur));
+        return ResponseEntity.ok(fournisseurService.getFournisseurDtoByNom(nomFournisseur));
     }
 
     @GetMapping("list")
     public ResponseEntity<List<FournisseurDto>> getAllFournisseur() {
-        return ResponseEntity.ok(fournisseurService.getAllFournisseur());
+        return ResponseEntity.ok(fournisseurService.getAllFournisseurDto());
     }
 
     @GetMapping("list/actif")
     public ResponseEntity<List<FournisseurDto>> getAllFournisseurActif() {
-        return ResponseEntity.ok(fournisseurService.getAllFournisseurActif());
+        return ResponseEntity.ok(fournisseurService.getAllFournisseurDtoActif());
     }
 
     @GetMapping("emptyFournisseur")
     public ResponseEntity<FournisseurDto> getEmptyFournisseur() {
-        return ResponseEntity.ok(fournisseurService.getEmptyFournisseur());
+        return ResponseEntity.ok(fournisseurService.getEmptyFournisseurDto());
     }
 
     @GetMapping("deleteFournisseur/{idFournisseur}")
@@ -59,8 +59,13 @@ public class FournisseurController {
 
     // ---------- POSTMAPPING ---------- //
 
-    @PostMapping("create")
+    @PostMapping("createFournisseur")
     public ResponseEntity<FournisseurDto> createFournisseur(@RequestBody FournisseurDto fournisseurDto) {
         return ResponseEntity.ok(fournisseurService.createFournisseur(fournisseurDto));
+    }
+
+    @PostMapping("updateFournisseur")
+    public ResponseEntity<FournisseurDto> updateFournisseur(@RequestBody FournisseurDto fournisseurDto) {
+        return ResponseEntity.ok(fournisseurService.updateFournisseur(fournisseurDto));
     }
 }
