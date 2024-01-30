@@ -62,6 +62,15 @@ public class StockServiceImpl implements StockService {
         return stockRepository.findById(idStock).orElse(new Stock());
     }
 
+    @Override
+    public Stock removeStockToProduit(StockDto stockDto) {
+        Stock stock = getStockById(stockDto.getId());
+        Stock newStock = new Stock(0, stock.getStock(), stock.isActif(), stock.getProduit());
+        newStock.setStock(newStock.getStock() - stockDto.getStock());
+        return stockRepository.save(newStock);
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -108,6 +117,12 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto getStockDtoById(long idStock) {
         Stock stock = getStockById(idStock);
+        return new StockDto(stock);
+    }
+
+    @Override
+    public StockDto removeStockDtoToProduit(StockDto stockDto) {
+        Stock stock = removeStockToProduit(stockDto);
         return new StockDto(stock);
     }
 

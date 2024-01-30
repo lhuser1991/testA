@@ -42,11 +42,18 @@ public interface StockService {
     List<Stock> getAllStockActif();
 
     /**
-     * Permet d'ajouter un Stock à un Produit
-     * @param produitDto Le Produit que l'on souhaite ajouté le Stock
-     * @return Le Stock ajouté au Produit
+     * Permet d'ajouter une quantité à un Stock à un Produit
+     * @param stockDto Le StockDto qui contient la nouvelle quantité de stock à ajouté
+     * @return Le nouveau Stock du Produit
      */
     Stock addStockToProduit(StockDto stockDto);
+
+    /**
+     * Permet d'enlever une quantité à un Stock d'un Produit
+     * @param stockDto Le StockDto qui contient la nouvelle quantité de stock à enlever
+     * @return Le nouveau Stock du Produit
+     */
+    Stock removeStockToProduit(StockDto stockDto);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -84,13 +91,18 @@ public interface StockService {
     List<StockDto> getAllStockDtoActif();
 
     /**
-     * Permet d'ajouter un Stock à un Produit
-     * @param produitDto Le Produit que l'on souhaite ajouté le Stock
-     * @return Le StockDto ajouté au Produit
+     * Permet d'ajouter une quantité à un Stock à un Produit
+     * @param stockDto Le StockDto qui contient la nouvelle quantité de stock à ajouté
+     * @return Le nouveau StockDto du Produit
      */
     StockDto addStockDtoToProduit(StockDto stockDto);
 
-
+    /**
+     * Permet d'enlever une quantité à un Stock d'un Produit
+     * @param stockDto Le StockDto qui contient la nouvelle quantité de stock à enlever
+     * @return Le nouveau StockDto du Produit
+     */
+    StockDto removeStockDtoToProduit(StockDto stockDto);
 
 
 
