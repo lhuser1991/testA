@@ -55,6 +55,12 @@ public interface StockService {
      */
     Stock removeStockToProduit(StockDto stockDto);
 
+    /**
+     * Permet d'obtenir un Stock vide
+     * @return Un Stock vide
+     */
+    Stock getEmptyStock();
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     
     /**
@@ -104,6 +110,10 @@ public interface StockService {
      */
     StockDto removeStockDtoToProduit(StockDto stockDto);
 
-
+    /**
+     * Permet d'obtenir un StockDto vide
+     * @return Un Stock Dto vide
+     */
+    StockDto getEmptyStockDto();
 
 }

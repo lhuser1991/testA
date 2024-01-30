@@ -71,6 +71,11 @@ public class StockServiceImpl implements StockService {
 
     }
 
+    @Override
+    public Stock getEmptyStock() {
+        return new Stock();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -123,6 +128,12 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto removeStockDtoToProduit(StockDto stockDto) {
         Stock stock = removeStockToProduit(stockDto);
+        return new StockDto(stock);
+    }
+
+    @Override
+    public StockDto getEmptyStockDto() {
+        Stock stock = getEmptyStock();
         return new StockDto(stock);
     }
 

@@ -54,6 +54,11 @@ public class StockController {
         return ResponseEntity.ok(stockService.getStockDtoActuelByProduitId(idProduit));
     }
 
+    @GetMapping("emptyStock")
+    public ResponseEntity<StockDto> emptyStock() {
+        return ResponseEntity.ok(stockService.getEmptyStockDto());
+    }
+
     // ---------- POSTMAPPING ---------- //
 
     @GetMapping("addStock")
