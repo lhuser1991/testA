@@ -10,5 +10,6 @@ public interface StockRepository extends JpaRepository<Stock, Long>{
     
     List<Stock> findAllByProduitId(long idProduit);
     List<Stock> findAllByActif(boolean actif);
-    
+    Stock findByProduitIdAndActif(long idProduit, boolean actif);
+
 }

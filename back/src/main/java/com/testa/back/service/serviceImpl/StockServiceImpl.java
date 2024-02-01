@@ -29,14 +29,11 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock getStockActuelByProduitId(long idProduit) {
-        Stock stockActuel = new Stock();
-        List<Stock> listStock = getAllStockByProduitId(idProduit);
-        for(Stock s: listStock) {
-            if(s.isActif() == true) {
-                stockActuel = s;
-            }
-        }
-        return stockActuel;
+        Stock stock = stockRepository.findByProduitIdAndActif(idProduit, true);
+        if(stock == null) {
+            stock = new Stock();
+        } 
+        return stock;
     }
 
     @Override
@@ -51,8 +48,10 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock addStockToProduit(StockDto stockDto) {
-        Stock stock = getStockById(stockDto.getId());
-        Stock newStock = new Stock(0, stock.getStock(), stock.isActif(), stock.getProduit());
+        Stock stock = getStockActuelByProduitId(stockDto.getIdProduit());
+        stock.setActif(false);
+        stockRepository.save(stock);
+        Stock newStock = new Stock(0, stock.getStock(), true, stock.getProduit());
         newStock.setStock(newStock.getStock() + stockDto.getStock());
         return stockRepository.save(newStock);
     }
@@ -64,8 +63,10 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock removeStockToProduit(StockDto stockDto) {
-        Stock stock = getStockById(stockDto.getId());
-        Stock newStock = new Stock(0, stock.getStock(), stock.isActif(), stock.getProduit());
+        Stock stock = getStockActuelByProduitId(stockDto.getIdProduit());
+        stock.setActif(false);
+        stockRepository.save(stock);
+        Stock newStock = new Stock(0, stock.getStock(), true, stock.getProduit());
         newStock.setStock(newStock.getStock() - stockDto.getStock());
         return stockRepository.save(newStock);
 
