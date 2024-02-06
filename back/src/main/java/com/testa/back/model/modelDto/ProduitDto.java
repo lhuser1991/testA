@@ -21,6 +21,7 @@ public class ProduitDto {
     private int stock;
     private boolean actif;
     private Timestamp dateCreation;
+    private long idOperation;
     private List<Long> listIdCategorie;
     private List<Long> listIdFournisseur;
 
@@ -31,6 +32,7 @@ public class ProduitDto {
         this.stock = 0;
         this.actif = false;
         this.dateCreation = new Timestamp(System.currentTimeMillis());
+        this.idOperation = 0;
         this.listIdCategorie = new ArrayList<Long>();
         this.listIdFournisseur = new ArrayList<Long>();
     }
@@ -42,6 +44,7 @@ public class ProduitDto {
         this.stock = 0;
         this.actif = produit.isActif();
         this.dateCreation = produit.getDateCreation();
+        this.idOperation = produit.getOperation().getId();
         this.listIdCategorie = new ArrayList<Long>();
         this.listIdFournisseur = new ArrayList<Long>();
     }

@@ -92,6 +92,7 @@ public class Produit {
         this.dateCreation = new Timestamp(System.currentTimeMillis());
         this.listProduitCategorie = new HashSet<ProduitCategorie>();
         this.listProduitFournisseur = new HashSet<ProduitFournisseur>();
+        this.operation = new Operation();
     }   
 
 }

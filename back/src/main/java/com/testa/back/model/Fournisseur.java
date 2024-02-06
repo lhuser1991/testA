@@ -44,6 +44,10 @@ public class Fournisseur {
     @Column(name = "date_creation")
     private Timestamp dateCreation;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_operation", referencedColumnName = "id", updatable = true)
+    private Operation operation;
+
     @JsonIgnore
     @OneToMany(mappedBy = "fournisseur")
     private Set<ProduitFournisseur> listProduitFournisseur;
@@ -54,6 +58,7 @@ public class Fournisseur {
         this.nom = "";
         this.actif = false;
         this.dateCreation = new Timestamp(System.currentTimeMillis());
+        this.operation = new Operation();
     }
 
    /**

@@ -36,6 +36,10 @@ public class Operation {
     @OneToMany(mappedBy = "operation")
     private Set<Produit> listProduit;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "operation")
+    private Set<Fournisseur> listFournisseur;
+
     public Operation() {
         this.id = 0;
         this.nom = "";

@@ -18,6 +18,7 @@ public class FournisseurDto {
     private String nom;
     private boolean actif;
     private Timestamp dateCreation;
+    private long idOperation;
 
     public FournisseurDto() {
         this.id = 0;
@@ -25,6 +26,7 @@ public class FournisseurDto {
         this.nom = "";
         this.actif = false;
         this.dateCreation = new Timestamp(System.currentTimeMillis());
+        this.idOperation = 0;
     }
 
     public FournisseurDto(Fournisseur fournisseur) {
@@ -33,5 +35,6 @@ public class FournisseurDto {
         this.nom = fournisseur.getNom();
         this.actif = fournisseur.isActif();
         this.dateCreation = fournisseur.getDateCreation();
+        this.idOperation = fournisseur.getOperation().getId();
     }
 }
