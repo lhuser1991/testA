@@ -5,22 +5,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.testa.back.model.Etat;
+import com.testa.back.model.Operation;
 import com.testa.back.model.Fournisseur;
 import com.testa.back.model.modelDto.FournisseurDto;
 import com.testa.back.repository.FournisseurRepository;
-import com.testa.back.service.EtatService;
+import com.testa.back.service.OperationService;
 import com.testa.back.service.FournisseurService;
 
 @Service
 public class FournisseurServiceImpl implements FournisseurService {
 
     private final FournisseurRepository fournisseurRepository;
-    private final EtatService etatService;
+    private final OperationService operationService;
 
-    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, EtatService etatService) {
+    public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, OperationService operationService) {
         this.fournisseurRepository = fournisseurRepository;
-        this.etatService = etatService;
+        this.operationService = operationService;
     }
 
     // ----------------------------------------------------- //

@@ -19,8 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "etat")
-public class Etat {
+@Table(name = "operation")
+public class Operation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,11 @@ public class Etat {
     @Column(name = "actif")
     private boolean actif;
 
-    public Etat() {
+    @JsonIgnore
+    @OneToMany(mappedBy = "operation")
+    private Set<Produit> listProduit;
+
+    public Operation() {
         this.id = 0;
         this.nom = "";
         this.actif = false;
@@ -42,7 +46,7 @@ public class Etat {
      * Pour la creation
      * @param nom
      */
-    public Etat(String nom) {
+    public Operation(String nom) {
         this.nom = nom;
         this.actif = true;
     }

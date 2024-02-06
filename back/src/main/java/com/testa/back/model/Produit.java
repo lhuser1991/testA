@@ -46,6 +46,10 @@ public class Produit {
     @Column(name = "date_creation")
     private Timestamp dateCreation;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_operation", referencedColumnName = "id", updatable = true)
+    private Operation operation;
+
     @JsonIgnore
     @OneToMany(mappedBy = "produit")
     private Set<ProduitCategorie> listProduitCategorie;
