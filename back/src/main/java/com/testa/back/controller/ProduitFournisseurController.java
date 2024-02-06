@@ -31,19 +31,9 @@ public class ProduitFournisseurController {
         return ResponseEntity.ok(produitFournisseurService.getAllFournisseurByProduitId(idProduit));
     }
 
-    @GetMapping("id/{idProduit}/list/fournisseur/actif")
-    public ResponseEntity<List<Fournisseur>> getAllFournisseurByProduitIdAndFourni(@PathVariable long idProduit) {
-        return ResponseEntity.ok(produitFournisseurService.getAllFournisseurByProduitIdAndFourni(idProduit, true));
-    }
-
     @GetMapping("id/{idFournisseur}/list/produit")
     public ResponseEntity<List<Produit>> getAllProduitByFournisseurId(@PathVariable long idFournisseur) {
         return ResponseEntity.ok(produitFournisseurService.getAllProduitByFournisseurId(idFournisseur));
-    }
-
-    @GetMapping("id/{idFournisseur}/list/produit/actif")
-    public ResponseEntity<List<Produit>> getAllProduitByFournisseurIdAndFourni(@PathVariable long idFournisseur) {
-        return ResponseEntity.ok(produitFournisseurService.getAllProduitByFournisseurIdAndFourni(idFournisseur, true));
     }
 
     @GetMapping("nom/{nomProduit}/list/fournisseur")

@@ -19,16 +19,16 @@ public class CategorieServiceImpl implements CategorieService {
 
     @Override
     public Categorie getCategorieById(long idCategorie) {
-        return categorieRepository.findById(idCategorie).orElse(null);
+        return categorieRepository.findById(idCategorie).orElse(getEmptyCategorie());
     }
 
     @Override
     public Categorie getCategorieBynom(String nomCategorie) {
         Categorie categorie = categorieRepository.findByNom(nomCategorie);
-        if(categorie == null) {
-            return null;
-        } else {
+        if(categorie != null) {
             return categorie;
+        } else {
+            return getEmptyCategorie();
         }
     }
 
@@ -43,8 +43,31 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public Categorie getEmptyCategorie() {
+        return new Categorie();
+    }
+
+    @Override
+    public Categorie deleteCategorie(long idCategorie) {
+        Categorie categorie = getCategorieById(idCategorie);
+        if(categorie.getId() != 0) {
+            categorie.setActif(false);
+            categorieRepository.save(categorie);
+        }
+        return categorie;
+    }
+
+    @Override
     public Categorie createCategorie(Categorie categorie) {
-        return categorieRepository.save(categorie);
+        Categorie newCategorie = getEmptyCategorie();
+        if(categorie.getId() == 0) {
+            // creation
+            newCategorie = new Categorie(categorie.getNom());
+        } else {
+            // modification
+            newCategorie = new Categorie(categorie);
+        }
+        return categorieRepository.save(newCategorie);
     }
 
     

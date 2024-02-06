@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.testa.back.model.Produit;
 import com.testa.back.model.generic.GenericResponse;
 import com.testa.back.model.modelDto.ProduitDto;
 import com.testa.back.service.ProduitService;
@@ -30,54 +29,49 @@ public class ProduitController {
     // ---------- GETMAPPING ---------- //
 
     @GetMapping("id/{idProduit}")
-    public ResponseEntity<Produit> getProduitById(@PathVariable long idProduit) {
-        return ResponseEntity.ok(produitService.getProduitById(idProduit));
+    public ResponseEntity<ProduitDto> getProduitById(@PathVariable long idProduit) {
+        return ResponseEntity.ok(produitService.getProduitDtoById(idProduit));
     }
 
     @GetMapping("nom/{nomProduit}")
-    public ResponseEntity<Produit> getProduitByNom(@PathVariable String nomProduit) {
-        return ResponseEntity.ok(produitService.getProduitByNom(nomProduit));
+    public ResponseEntity<ProduitDto> getProduitByNom(@PathVariable String nomProduit) {
+        return ResponseEntity.ok(produitService.getProduitDtoByNom(nomProduit));
     }
 
     @GetMapping("list")
-    public ResponseEntity<List<Produit>> getAllProduit() {
-        return ResponseEntity.ok(produitService.getAllProduit());
-    }
-
-    @GetMapping("list/orderBy/idCategorie/{idCategorie}")
-    public ResponseEntity<List<Produit>> getAllProduitByIdCategorie(@PathVariable long idCategorie) {
-        return ResponseEntity.ok(produitService.getAllProduitByIdCategorie(idCategorie));
-    }
-
-    @GetMapping("list/orderBy/nomCategorie/{nomCategorie}")
-    public ResponseEntity<List<Produit>> getAllProduitByNomCategorie(@PathVariable String nomCategorie) {
-        return ResponseEntity.ok(produitService.getAllProduitByNomCategorie(nomCategorie));
+    public ResponseEntity<List<ProduitDto>> getAllProduit() {
+        return ResponseEntity.ok(produitService.getAllProduitDto());
     }
 
     @GetMapping("list/orderBy/actif")
-    public ResponseEntity<List<Produit>> getAllProduitActif() {
-        return ResponseEntity.ok(produitService.getAllProduitActif());
+    public ResponseEntity<List<ProduitDto>> getAllProduitActif() {
+        return ResponseEntity.ok(produitService.getAllProduiDtotActif());
     }
 
-    @GetMapping("list/orderBy/actifAndIdCategorie/{idCategorie}")
-    public ResponseEntity<List<Produit>> getAllProduitActifByIdCategorie(@PathVariable long idCategorie) {
-        return ResponseEntity.ok(produitService.getAllProduitActifByIdCategorie(idCategorie));
+    @GetMapping("emptyProduit")
+    public ResponseEntity<ProduitDto> emptyProduit() {
+        return ResponseEntity.ok(produitService.getEmptyProduitDto());
     }
 
-    @GetMapping("list/orderBy/actifAndNomCategorie/{nomCategorie}")
-    public ResponseEntity<List<Produit>> getAllProduitActifByNomCategorie(@PathVariable String nomCategorie) {
-        return ResponseEntity.ok(produitService.getAllProduitActifByNomCategorie(nomCategorie));
+    @GetMapping("deleteProduit/{idProduit}")
+    public ResponseEntity<ProduitDto> deleteProduitById(@PathVariable long idProduit) {
+        return ResponseEntity.ok(produitService.deleteProduitDtoById(idProduit));
     }
 
-    @GetMapping("initProduit")
-    public ResponseEntity<ProduitDto> initProduit() {
-        return ResponseEntity.ok(produitService.initProduit());
+    @GetMapping("list/{numeroProduit}")
+    public ResponseEntity<List<ProduitDto>> getAllByNumeroProduit(@PathVariable String numeroProduit) {
+        return ResponseEntity.ok(produitService.getAllProduitDtoByNumeroProduit(numeroProduit));
     }
 
     // ---------- POSTMAPPING ---------- //
 
-    @PostMapping("create")
-    public ResponseEntity<GenericResponse<Produit>> createProduit(@RequestBody ProduitDto produitDto) {
+    @PostMapping("createProduit")
+    public ResponseEntity<GenericResponse<ProduitDto>> createProduit(@RequestBody ProduitDto produitDto) {
         return ResponseEntity.ok(produitService.createProduit(produitDto));
+    }
+
+    @PostMapping("updateProduit")
+    public ResponseEntity<GenericResponse<ProduitDto>> updateProduit(@RequestBody ProduitDto produitDto) {
+        return ResponseEntity.ok(produitService.updateProduit(produitDto));
     }
 }

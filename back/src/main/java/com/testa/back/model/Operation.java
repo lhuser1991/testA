@@ -19,8 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "categorie")
-public class Categorie {
+@Table(name = "operation")
+public class Operation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +33,10 @@ public class Categorie {
     private boolean actif;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categorie")
-    private Set<ProduitCategorie> listProduitCategorie;
+    @OneToMany(mappedBy = "operation")
+    private Set<Produit> listProduit;
 
-    /**
-     * Pour l'initialisation
-     */
-    public Categorie() {
+    public Operation() {
         this.id = 0;
         this.nom = "";
         this.actif = false;
@@ -48,17 +45,10 @@ public class Categorie {
     /**
      * Pour la creation
      * @param nom
-     * @param actif
      */
-    public Categorie(String nom) {
+    public Operation(String nom) {
         this.nom = nom;
         this.actif = true;
-    }
-
-    public Categorie(Categorie categorie) {
-        this.id = categorie.getId();
-        this.nom = categorie.getNom();
-        this.actif = categorie.isActif();
     }
 
 }

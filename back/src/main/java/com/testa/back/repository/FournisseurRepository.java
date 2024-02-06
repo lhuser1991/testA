@@ -10,5 +10,6 @@ public interface FournisseurRepository extends JpaRepository<Fournisseur, Long>{
     
     Fournisseur findByNom(String nom);
     List<Fournisseur> findAllByActif(boolean actif);
-    
+    List<Fournisseur> findAllByIdentifiant(String identifiant);
+
 }

@@ -1,7 +1,5 @@
 package com.testa.back.model;
 
-import com.testa.back.model.modelDto.ProduitFournisseurDto;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,27 +18,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "produit_fournisseur")
-public class ProduitFournisseur {
-
+@Table(name = "produit_categorie")
+public class ProduitCategorie {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = true)
     private Produit produit;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_fournisseur", referencedColumnName = "id", updatable = true)
-    private Fournisseur fournisseur;
+    @JoinColumn(name = "id_categorie", referencedColumnName = "id", updatable = true)
+    private Categorie categorie;
 
-    public ProduitFournisseur(Produit produit, Fournisseur fournisseur) {
+    public ProduitCategorie(Produit produit, Categorie categorie) {
         this.produit = produit;
-        this.fournisseur = fournisseur;
+        this. categorie = categorie;
     }
 
-    public ProduitFournisseur(ProduitFournisseurDto produitFournisseurDto) {
-        this.id = produitFournisseurDto.getId();
-    }
 }

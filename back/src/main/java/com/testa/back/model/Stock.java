@@ -1,7 +1,6 @@
 package com.testa.back.model;
 
-import com.testa.back.model.modelDto.ProduitFournisseurDto;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,31 +15,36 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "produit_fournisseur")
-public class ProduitFournisseur {
-
+@Table(name = "stock")
+public class Stock {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
+    @Column(name = "stock")
+    private int stock;
+
+    @Column(name = "actif")
+    private boolean actif;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_produit", referencedColumnName = "id", updatable = true)
     private Produit produit;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_fournisseur", referencedColumnName = "id", updatable = true)
-    private Fournisseur fournisseur;
-
-    public ProduitFournisseur(Produit produit, Fournisseur fournisseur) {
-        this.produit = produit;
-        this.fournisseur = fournisseur;
+    public Stock() {
+        this.id = 0;
+        this.stock = 0;
+        this.actif = false;
+        this.produit = new Produit();
     }
 
-    public ProduitFournisseur(ProduitFournisseurDto produitFournisseurDto) {
-        this.id = produitFournisseurDto.getId();
+    public Stock(Stock stock) {
+        this.stock = stock.getStock();
+        this.actif = stock.isActif();
     }
+
 }
