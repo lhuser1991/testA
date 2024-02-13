@@ -1,5 +1,6 @@
 package com.testa.back.service.serviceImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class StockServiceImpl implements StockService {
         Stock stock = getStockActuelByProduitId(stockDto.getIdProduit());
         stock.setActif(false);
         stockRepository.save(stock);
-        Stock newStock = new Stock(0, stock.getStock(), true, stock.getProduit());
+        Stock newStock = new Stock(0, new Timestamp(System.currentTimeMillis()), stock.getStock(), true, stock.getProduit());
         newStock.setStock(newStock.getStock() + stockDto.getStock());
         return stockRepository.save(newStock);
     }
@@ -66,7 +67,7 @@ public class StockServiceImpl implements StockService {
         Stock stock = getStockActuelByProduitId(stockDto.getIdProduit());
         stock.setActif(false);
         stockRepository.save(stock);
-        Stock newStock = new Stock(0, stock.getStock(), true, stock.getProduit());
+        Stock newStock = new Stock(0, new Timestamp(System.currentTimeMillis()), stock.getStock(), true, stock.getProduit());
         newStock.setStock(newStock.getStock() - stockDto.getStock());
         return stockRepository.save(newStock);
 
@@ -147,13 +148,14 @@ public class StockServiceImpl implements StockService {
             initStock.setId(stock.getId());
             initStock.setActif(stock.isActif());
             initStock.setProduit(stock.getProduit());
+            initStock.setDateCreation(new Timestamp(System.currentTimeMillis()));
         }
         return stock;
     }
 
     public StockDto initStockDto(long idStock) {
         Stock stock = initStock(idStock);
-        return new StockDto(stock.getId(), 0, stock.isActif(), stock.getProduit().getId());
+        return new StockDto(stock.getId(), stock.getDateCreation(), 0, stock.isActif(), stock.getProduit().getId());
 
     }
 

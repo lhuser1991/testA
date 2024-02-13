@@ -1,5 +1,7 @@
 package com.testa.back.model;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +26,9 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "date_creation")
+    private Timestamp dateCreation;
 
     @Column(name = "stock")
     private int stock;

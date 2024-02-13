@@ -1,5 +1,6 @@
 package com.testa.back.service.serviceImpl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.testa.back.model.Categorie;
 import com.testa.back.model.Fournisseur;
+import com.testa.back.model.Operation;
 import com.testa.back.model.Produit;
 import com.testa.back.model.ProduitCategorie;
 import com.testa.back.model.ProduitFournisseur;
@@ -20,6 +22,7 @@ import com.testa.back.repository.ProduitFournisseurRepository;
 import com.testa.back.repository.ProduitRepository;
 import com.testa.back.repository.StockRepository;
 import com.testa.back.service.CategorieService;
+import com.testa.back.service.OperationService;
 import com.testa.back.service.ProduitCategorieService;
 import com.testa.back.service.ProduitFournisseurService;
 import com.testa.back.service.ProduitService;
@@ -38,6 +41,7 @@ public class ProduitServiceImpl implements ProduitService{
     private final StockService stockService;
     private final ProduitCategorieService produitCategorieService;
     private final ProduitFournisseurService produitFournisseurService;
+    private final OperationService operationService;
 
     public ProduitServiceImpl(
         ProduitRepository produitRepository,
@@ -49,7 +53,8 @@ public class ProduitServiceImpl implements ProduitService{
         CategorieService categorieService,
         StockService stockService,
         ProduitCategorieService produitCategorieService,
-        ProduitFournisseurService produitFournisseurService
+        ProduitFournisseurService produitFournisseurService,
+        OperationService operationService
         ) {
         this.produitRepository = produitRepository;
         this.categorieRepository = categorieRepository;
@@ -61,6 +66,7 @@ public class ProduitServiceImpl implements ProduitService{
         this.stockService = stockService;
         this.produitCategorieService = produitCategorieService;
         this.produitFournisseurService = produitFournisseurService;
+        this.operationService = operationService;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +186,7 @@ public class ProduitServiceImpl implements ProduitService{
             
             // Creer et save un nouveau produit
             Produit newProduit = new Produit(produitDto.getNumero(), produitDto.getNom());
+            newProduit.setOperation(operationService.getOperationByNom("creation"));
             produitRepository.save(newProduit);
     
             // Creer et save un nouveau stock
@@ -187,6 +194,7 @@ public class ProduitServiceImpl implements ProduitService{
             newStock.setStock(produitDto.getStock());
             newStock.setProduit(newProduit);
             newStock.setActif(true);
+            newStock.setDateCreation(new Timestamp(System.currentTimeMillis()));
             stockRepository.save(newStock);
     
             // Creer et save une nouvelle liste de produitcategorie
@@ -227,10 +235,19 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto) {
+    public GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto, String nomOperation) {
         if(produitDto.getId() == 0) {
             return new GenericResponse<>(produitDto,"Produit non modifié");
         } else {
+
+            List<Operation> listOperation = operationService.getAllOperationActif();
+            Operation operation = new Operation();
+            for(Operation o: listOperation) {
+                if(o.getNom().equals(nomOperation)) {
+                    operation = o;
+                    break;
+                }
+            }
 
             // Save la liste des produits contenant les anciens produit et le nouveau produit.
             // Les anciens sont mis avec actif = false et le nouveau avec un actif = true.
@@ -241,6 +258,7 @@ public class ProduitServiceImpl implements ProduitService{
                 updateListProduit.add(p);
             }
             Produit updateProduit = new Produit(produitDto);
+            updateProduit.setOperation(operationService.getOperationByNom(operation.getNom()));
             updateListProduit.add(updateProduit);
             produitRepository.saveAll(updateListProduit);
 
@@ -250,6 +268,7 @@ public class ProduitServiceImpl implements ProduitService{
             Stock stock = stockService.getStockActuelByProduitId(produitDto.getId());
             Stock updateStock = new Stock(stock);
             updateStock.setProduit(updateProduit);
+            updateStock.setDateCreation(new Timestamp(System.currentTimeMillis()));
             List<Stock> updateListStock = new ArrayList<Stock>();
             List<Stock> listStock = stockService.getAllStock();
             for(Stock s: listStock) {
@@ -263,15 +282,31 @@ public class ProduitServiceImpl implements ProduitService{
 
             // Recupere la liste de produitcategorie de l'ancien produit, puis les mets à jour
             // avec le nouveau produit, puis sauvegarde la nouvelle liste
-            List<ProduitCategorie> listProduitCategorie = produitCategorieService.getAllByProduitId(produitDto.getId());
-            List<ProduitCategorie> updateListProduitCategorie = new ArrayList<ProduitCategorie>();
-            for(ProduitCategorie pc: listProduitCategorie) {
-                ProduitCategorie updateProduitCategorie = new ProduitCategorie();
-                updateProduitCategorie.setProduit(updateProduit);
-                updateProduitCategorie.setCategorie(pc.getCategorie());
-                updateListProduitCategorie.add(updateProduitCategorie);
+            if(operation.getNom().equals("modification_categorie")) {
+                List<Categorie> listCategorie = new ArrayList<Categorie>();
+                for(Long id: produitDto.getListIdCategorie()) {
+                    listCategorie.add(categorieService.getCategorieById(id));
+                }
+                List<ProduitCategorie> newListProduitCategorie = new ArrayList<ProduitCategorie>();
+                for(Categorie c: listCategorie) {
+                    ProduitCategorie newProduitCategorie = new ProduitCategorie();
+                    newProduitCategorie.setProduit(updateProduit);
+                    newProduitCategorie.setCategorie(c);
+                    newListProduitCategorie.add(newProduitCategorie);
+                }
+                produitCategorieRepository.saveAll(newListProduitCategorie);
+
+            } else {
+                List<ProduitCategorie> listProduitCategorie = produitCategorieService.getAllByProduitId(produitDto.getId());
+                List<ProduitCategorie> updateListProduitCategorie = new ArrayList<ProduitCategorie>();
+                for(ProduitCategorie pc: listProduitCategorie) {
+                    ProduitCategorie updateProduitCategorie = new ProduitCategorie();
+                    updateProduitCategorie.setProduit(updateProduit);
+                    updateProduitCategorie.setCategorie(pc.getCategorie());
+                    updateListProduitCategorie.add(updateProduitCategorie);
+                }
+                produitCategorieRepository.saveAll(updateListProduitCategorie);
             }
-            produitCategorieRepository.saveAll(updateListProduitCategorie);
 
             // Recupere la liste de produitfournisseur de l'ancien produit, puis les mets à jour
             // avec le nouveau produit, puis sauvegarde la nouvelle liste

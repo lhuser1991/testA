@@ -1,5 +1,7 @@
 package com.testa.back.model.modelDto;
 
+import java.sql.Timestamp;
+
 import com.testa.back.model.Stock;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.Setter;
 public class StockDto {
     
     private long id;
+    private Timestamp dateCreation;
     private int stock;
     private boolean actif;
     private long idProduit;
@@ -21,6 +24,7 @@ public class StockDto {
         this.stock = 0;
         this.actif = false;
         this.idProduit = 0;
+        this.dateCreation = new Timestamp(System.currentTimeMillis());
     }
 
     public StockDto(Stock stock) {

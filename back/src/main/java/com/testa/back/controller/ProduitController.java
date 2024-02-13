@@ -70,8 +70,8 @@ public class ProduitController {
         return ResponseEntity.ok(produitService.createProduit(produitDto));
     }
 
-    @PostMapping("updateProduit")
-    public ResponseEntity<GenericResponse<ProduitDto>> updateProduit(@RequestBody ProduitDto produitDto) {
-        return ResponseEntity.ok(produitService.updateProduit(produitDto));
+    @PostMapping("updateProduit/{nomOperation}")
+    public ResponseEntity<GenericResponse<ProduitDto>> updateProduit(@RequestBody ProduitDto produitDto, @PathVariable String nomOperation) {
+        return ResponseEntity.ok(produitService.updateProduit(produitDto, nomOperation));
     }
 }
