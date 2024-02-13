@@ -106,5 +106,9 @@ public interface ProduitService {
     GenericResponse<ProduitDto> createProduit(ProduitDto produitDto);
 
     GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto);
+
+    GenericResponse<ProduitDto> updateListCategorieOfProduit(ProduitDto produitDto);
+
+    GenericResponse<ProduitDto> updateListFournisseurOfProduit(ProduitDto produitDto);
     
 }

@@ -74,4 +74,14 @@ public class ProduitController {
     public ResponseEntity<GenericResponse<ProduitDto>> updateProduit(@RequestBody ProduitDto produitDto) {
         return ResponseEntity.ok(produitService.updateProduit(produitDto));
     }
+
+    @PostMapping("updateProduit/categorie")
+    public ResponseEntity<GenericResponse<ProduitDto>> updateListCategorieOfProduit(@RequestBody ProduitDto produitDto) {
+        return ResponseEntity.ok(produitService.updateListCategorieOfProduit(produitDto));
+    }
+
+    @PostMapping("updateProduit/fournisseur")
+    public ResponseEntity<GenericResponse<ProduitDto>> updateListFournisseurOfProduit(@RequestBody ProduitDto produitDto) {
+        return ResponseEntity.ok(produitService.updateListFournisseurOfProduit(produitDto));
+    }
 }
