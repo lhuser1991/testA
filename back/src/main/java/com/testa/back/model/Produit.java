@@ -84,6 +84,20 @@ public class Produit {
         this.actif = produitDto.isActif();
     }
 
+    /**
+     * Constructeur de Produit utilisé pour sauvegarder un Produit
+     * identique
+     * @param produit
+     */
+    public Produit(Produit produit) {
+        this.id = 0;
+        this.numero = produit.getNumero();
+        this.nom = produit.getNom();
+        this.actif = produit.isActif();
+        this.dateCreation = new Timestamp(System.currentTimeMillis());
+        this.operation = produit.getOperation();
+    }
+
     public Produit() {
         this.id = 0;
         this.numero = "";

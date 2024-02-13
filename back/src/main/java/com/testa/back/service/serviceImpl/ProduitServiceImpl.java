@@ -235,19 +235,10 @@ public class ProduitServiceImpl implements ProduitService{
     }
 
     @Override
-    public GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto, String nomOperation) {
+    public GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto) {
         if(produitDto.getId() == 0) {
             return new GenericResponse<>(produitDto,"Produit non modifié");
         } else {
-
-            List<Operation> listOperation = operationService.getAllOperationActif();
-            Operation operation = new Operation();
-            for(Operation o: listOperation) {
-                if(o.getNom().equals(nomOperation)) {
-                    operation = o;
-                    break;
-                }
-            }
 
             // Save la liste des produits contenant les anciens produit et le nouveau produit.
             // Les anciens sont mis avec actif = false et le nouveau avec un actif = true.
@@ -258,7 +249,6 @@ public class ProduitServiceImpl implements ProduitService{
                 updateListProduit.add(p);
             }
             Produit updateProduit = new Produit(produitDto);
-            updateProduit.setOperation(operationService.getOperationByNom(operation.getNom()));
             updateListProduit.add(updateProduit);
             produitRepository.saveAll(updateListProduit);
 
@@ -282,31 +272,15 @@ public class ProduitServiceImpl implements ProduitService{
 
             // Recupere la liste de produitcategorie de l'ancien produit, puis les mets à jour
             // avec le nouveau produit, puis sauvegarde la nouvelle liste
-            if(operation.getNom().equals("modification_categorie")) {
-                List<Categorie> listCategorie = new ArrayList<Categorie>();
-                for(Long id: produitDto.getListIdCategorie()) {
-                    listCategorie.add(categorieService.getCategorieById(id));
-                }
-                List<ProduitCategorie> newListProduitCategorie = new ArrayList<ProduitCategorie>();
-                for(Categorie c: listCategorie) {
-                    ProduitCategorie newProduitCategorie = new ProduitCategorie();
-                    newProduitCategorie.setProduit(updateProduit);
-                    newProduitCategorie.setCategorie(c);
-                    newListProduitCategorie.add(newProduitCategorie);
-                }
-                produitCategorieRepository.saveAll(newListProduitCategorie);
-
-            } else {
-                List<ProduitCategorie> listProduitCategorie = produitCategorieService.getAllByProduitId(produitDto.getId());
-                List<ProduitCategorie> updateListProduitCategorie = new ArrayList<ProduitCategorie>();
-                for(ProduitCategorie pc: listProduitCategorie) {
-                    ProduitCategorie updateProduitCategorie = new ProduitCategorie();
-                    updateProduitCategorie.setProduit(updateProduit);
-                    updateProduitCategorie.setCategorie(pc.getCategorie());
-                    updateListProduitCategorie.add(updateProduitCategorie);
-                }
-                produitCategorieRepository.saveAll(updateListProduitCategorie);
+            List<ProduitCategorie> listProduitCategorie = produitCategorieService.getAllByProduitId(produitDto.getId());
+            List<ProduitCategorie> updateListProduitCategorie = new ArrayList<ProduitCategorie>();
+            for(ProduitCategorie pc: listProduitCategorie) {
+                ProduitCategorie updateProduitCategorie = new ProduitCategorie();
+                updateProduitCategorie.setProduit(updateProduit);
+                updateProduitCategorie.setCategorie(pc.getCategorie());
+                updateListProduitCategorie.add(updateProduitCategorie);
             }
+            produitCategorieRepository.saveAll(updateListProduitCategorie);
 
             // Recupere la liste de produitfournisseur de l'ancien produit, puis les mets à jour
             // avec le nouveau produit, puis sauvegarde la nouvelle liste

@@ -105,6 +105,6 @@ public interface ProduitService {
 
     GenericResponse<ProduitDto> createProduit(ProduitDto produitDto);
 
-    GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto, String nomOperation);
+    GenericResponse<ProduitDto> updateProduit(ProduitDto produitDto);
     
 }
