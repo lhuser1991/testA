@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -26,5 +27,11 @@ public class Role {
 
     @Column(name = "actif")
     private boolean actif;
+
+    public Role() {
+        this.id = 0;
+        this.nom = "";
+        this.actif = false;
+    }
     
 }
